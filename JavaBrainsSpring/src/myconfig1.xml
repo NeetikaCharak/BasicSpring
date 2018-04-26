@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop.xsd "
+	default-init-method="myInit" default-destroy-method="myDestroy">
+
+	<aop:aspectj-autoproxy /><!-- To Use AOP annotaions @Aspect etc -->
+	<context:annotation-config /><!-- Substitute for all AnnotationBeanPostProcessor 
+		@Required/Annotation -->
+	<context:component-scan base-package="com.neetika" /><!-- 
+		To scan all classes for bean def @Component -->
+
+
+	<!-- <bean id="circle" class="com.neetika.Circle" lazy-init="true" autowire="byName" 
+		/> -->
+
+	<bean id="circle" class="com.neetika.Circle"  />
+
+	<bean id="triangle" class="com.neetika.Triangle" lazy-init="true"
+		autowire="byName" init-method="myInit" destroy-method="myDestroy">
+	</bean>
+
+	<bean id="parentTriangle" class="com.neetika.Point" lazy-init="true"
+		abstract="true">
+		<property name="y" value="991"></property>
+	</bean>
+
+	<bean id="pointA" class="com.neetika.Point" lazy-init="true"
+		parent="parentTriangle">
+
+		<property name="x" value="${points.pointA.x}"></property>
+		<property name="y" value="${points.pointA.y}"></property>
+	</bean>
+	<bean id="pointB" class="com.neetika.Point" lazy-init="true">
+
+		<property name="x" value="30"></property>
+		<property name="y" value="31"></property>
+	</bean>
+	<bean id="pointC" class="com.neetika.Point" lazy-init="true">
+		<qualifier value="circleRelated"></qualifier>
+		<property name="x" value="140"></property>
+		<property name="y" value="141"></property>
+	</bean>
+
+	<bean id="pointD" class="com.neetika.Point" lazy-init="true">
+		<property name="x" value="88"></property>
+		<property name="y" value="89"></property>
+	</bean>
+
+	<bean id="pointE" class="com.neetika.Point" lazy-init="true">
+		<property name="x" value="599"></property>
+		<property name="y" value="300"></property>
+	</bean>
+
+	<bean id="smallCenterPoint" class="com.neetika.Point" lazy-init="true">
+		<property name="x" value="9"></property>
+		<property name="y" value="3"></property>
+	</bean>
+
+	<bean class="com.neetika.DoSomeJobBeanProcessor" />
+	<bean class="com.neetika.DoSomeJobBeanFactoryPostProcessor" />
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"><!-- Spring's own BeanFactoryPostProcessor; runs before initialising 
+			all beans -->
+		<property name="locations" value="myPoints.config" />
+	</bean>
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>myMessages</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean
+		class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" /><!-- 
+		Spring BeanPostProcessor that check for @required after settig all beans -->
+
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" /><!-- 
+		Spring BeanPostProcessor that check for @Autowired after settig all beans -->
+	<!-- @Autowired annotation : First checks the bean by-type; if multiple 
+		beans with same type, it check By_name( matching the parameter name instead 
+		of the member variable name).Finally if can't find by tyoe or by name, it 
+		checks for qualifier -->
+
+</beans>
