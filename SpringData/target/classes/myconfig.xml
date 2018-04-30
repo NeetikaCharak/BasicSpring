@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.neetika.dao" />
+	
+	<!-- <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> NO CONNECTION POOLING WITH SPRING DATASOURCE -->
+	<bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource"> 
+		<property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"></property>
+		<property name="url" value="jdbc:derby://localhost:1527/db;create=true"></property>
+		
+		<!-- Pooling related properties related to dbcp only, here 2 and 5 are the number of connections -->
+		<property name="initialSize" value="2"></property>
+		<property name="maxActive" value="5"></property>
+	</bean>
+	
+	<bean id="jdbcTemplateBean" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="datasource"></property>
+	</bean>
+	
+	<!-- For property tag, there must be no-arg contructor -->
+	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg name="dataSource" ref="datasource"></constructor-arg>
+	</bean>
+	
+	<bean id="springDaoSupport" class="com.neetika.dao.SpringDaoSupport"><!-- For SpringDaoSupport.java : Just this def is enough for DAOSupport classes-->
+		<property name="dataSource" ref="datasource"></property>
+	</bean>
+	
+	<bean id="sessonFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="datasource"></property>
+		<property name="packagesToScan" value="com.neetika.model"></property><!-- Model class's package to scan for annotated classes -->
+		
+		<property name="hibernateProperties">
+			<props>
+				<prop key="dialect">org.hibernate.dialect.DerbyDialect</prop>
+			</props>
+		</property>
+	</bean>
+	
+</beans>  
