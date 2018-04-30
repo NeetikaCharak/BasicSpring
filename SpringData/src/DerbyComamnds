@@ -1,6 +1,21 @@
-Derby client to connect to server derby
+Start Server - 
+D:\Neetika\Work\DERBY\db-derby-10.14.1.0-bin\bin>startNetworkServer.bat
+Wed Apr 25 22:13:07 BST 2018 : Security manager installed using the Basic server security policy.
+Wed Apr 25 22:13:08 BST 2018 : Apache Derby Network Server - 10.14.1.0 - (1808820) started and ready to accept connections on port 1527
+
+
+Start Client - 
+D:\Neetika\Work\DERBY\db-derby-10.14.1.0-bin\bin>ij.bat
+ij version 10.14
 ij> connect'jdbc:derby://localhost:1527/db;create=true';
+ij> CREATE TABLE circle(id integer, name char(50))
+>
+>
+> ;
+0 rows inserted/updated/deleted
+ij> select * from circle
+> ;
+ID         |NAME
+--------------------------------------------------------------
 
-
-CREATE TABLE circle(id integer, name char(50));
-insert into circle values (1, 'First Circle');
+0 rows selected
