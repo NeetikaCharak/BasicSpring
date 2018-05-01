@@ -152,7 +152,7 @@ public class SpringJdbcSupport {
 	}
 	
 	/**
-	 * JDBCTemplate's update mehod is for cretion, removal and update
+	 * JDBCTemplate's update method is for creation, removal and update
 	 * @param circle
 	 */
 	public void createCircleUsingJdbcTemplateBean(Circle circle){

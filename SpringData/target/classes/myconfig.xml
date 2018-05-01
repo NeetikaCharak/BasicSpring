@@ -32,7 +32,7 @@
 	
 	<bean id="sessonFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="datasource"></property>
-		<property name="packagesToScan" value="com.neetika.model"></property><!-- Model class's package to scan for annotated classes -->
+		<property name="packagesToScan" value="com.neetika.model"></property><!-- Model class's package to scan for annotated classes @Entity -->
 		
 		<property name="hibernateProperties">
 			<props>
