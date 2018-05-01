@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 @Component//Stereotype Anotations - Telling spring that it is a bean Automatically use lowerletter for first letter in Bean name(value="bigCircle") 
-//depending upon role of this class we an have @Controller, @Reporsitor, @Services; all are same. There is n definition for hem in xml file
+//depending upon role of this class we an have @Controller, @Repository, @Services; all are same. There is no definition for them in spring xml file
 public class BigCircle implements Shape {
 	
 	private Point centerPoint;

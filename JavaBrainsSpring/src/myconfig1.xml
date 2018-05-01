@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
@@ -10,7 +11,7 @@
 
 	<aop:aspectj-autoproxy /><!-- To Use AOP annotaions @Aspect etc -->
 	<context:annotation-config /><!-- Substitute for all AnnotationBeanPostProcessor 
-		@Required/Annotation -->
+		@Required/ all Annotations -->
 	<context:component-scan base-package="com.neetika" /><!-- 
 		To scan all classes for bean def @Component -->
 
@@ -86,7 +87,7 @@
 		Spring BeanPostProcessor that check for @Autowired after settig all beans -->
 	<!-- @Autowired annotation : First checks the bean by-type; if multiple 
 		beans with same type, it check By_name( matching the parameter name instead 
-		of the member variable name).Finally if can't find by tyoe or by name, it 
+		of the member variable name).Finally if can't find by type or by name, it 
 		checks for qualifier -->
 
 </beans>

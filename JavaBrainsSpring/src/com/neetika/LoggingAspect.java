@@ -21,6 +21,8 @@ public class LoggingAspect {
 	 * 3 Pointcuts Expressions:
 	 * args(), execution(), within
 	 * 
+	 * args(String) - this will execute all methods having 1 argument as String
+	 * 
 	 * Advice Types:
 	 * @Before, @After, @AfterThrowing, @AfterReturning, @Around
 	 * 
@@ -32,30 +34,31 @@ public class LoggingAspect {
 	 * @AfterReturning is executed only when method is successfully completed, and no exeception is met
 	 * @AfterThrowing is executed only when method is caught into Exception
 	 * 
-	 * execution(* Circle.draw()) execution(public void draw()) execution(public
-	 * void com.neetika.Circle.draw()) execution(public void
-	 * com.neetika.*.draw()) execution(public void dr*()) - For all methods with
-	 * starting name as 'dr' with return type as 'VOID' execution(public *
-	 * dr*()) - For all methods with starting name as 'dr' with ANY return type
-	 * execution(* dr*()) - For all methods with starting name as 'dr' with ANY
-	 * return type and irrespetive whether it is public/private
+	 * execution(* Circle.draw()) 
+	 * execution(public void draw()) 
+	 * execution(public * com.neetika.Circle.draw()) 
+	 * execution(public void com.neetika.*.draw()) 
+	 * execution(public void dr*()) - For all methods with * starting name as 'dr' with return type as 'VOID'
+	 * execution(public * dr*()) - For all methods with starting name as 'dr' with ANY return type
+	 * execution(* dr*()) - For all methods with starting name as 'dr' with ANY * return type and irrespetive whether it is public/private
 	 * 
-	 * Arguments - execution(* dr*()) - Run for methods with NO argument
+	 * Arguments - 
+	 * execution(* dr*()) - Run for methods with NO argument
 	 * execution(* dr*(*)) - Run for methods with ONE or More arguments
 	 * execution(* dr*(..)) - Run for methods with ZERO or More arguments
 	 * 
 	 * Note
-	 * 1- If we have same advce for multiple pointcut expressions(multiple methods in say diffent classes for whi we cannot have a commo pointcut) 
+	 * 1- If we have same advice for multiple pointcut expressions(multiple methods in say different classes for which we cannot have a common pointcut) 
 	 * we can use && operator. However, if the list of expresson is huge we much use Custom Annotation Advice eg @Around("@annotation(com.neetika.LoggableAnnotation)").
 	 * here we need to use @LoggableAnnotation on everymethod we want to include in advise
 	 * 
-	 * args(String) - this will execute all methods having 1 argument as String
+	 * 
 	 * 
 	 */
 	
 	
 	/**
-	 * This method executes code before and after targe method execution; that y around
+	 * This method executes code before and after target method execution; that y around
 	 * 
 	 *  One more plus point is that we can modify the returnObject and pass it to actual code which is not possible with AfterReturning
 	 * 
