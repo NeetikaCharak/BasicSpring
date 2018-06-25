@@ -19,3 +19,15 @@ ID         |NAME
 --------------------------------------------------------------
 
 0 rows selected
+
+----------------------------------
+CREATE SEQUENCE student_custom_id AS BIGINT START WITH 100;
+
+ select 
+ studentlis0_.studentCourseList_COURSE_ID as studentC1_5_0_, 
+ studentlis0_.studentList_STUDENT_ID as studentL2_5_0_, 
+ student1_.STUDENT_ID as STUDENT_1_3_1_, 
+ student1_.STUDENT_NAME as STUDENT_2_3_1_ 
+ from STUDENT_COURSE_Student studentlis0_ 
+ inner join
+ Student student1_ on studentlis0_.studentList_STUDENT_ID=student1_.STUDENT_ID where studentlis0_.studentCourseList_COURSE_ID=?

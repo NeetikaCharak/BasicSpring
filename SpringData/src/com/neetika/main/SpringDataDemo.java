@@ -4,7 +4,7 @@ import com.neetika.dao.BasicJdbc;
 import com.neetika.dao.HibernateDaoImpl;
 import com.neetika.dao.SpringDaoSupport;
 import com.neetika.dao.SpringJdbcSupport;
-import com.neetika.model.Circle;
+import com.neetika.model.CircleDetails;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,7 +17,7 @@ public class SpringDataDemo {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("myconfig.xml");
 		context.registerShutdownHook();
 		
-	//Traditional JDBC connection 
+	    //Traditional JDBC connection 
 		BasicJdbc dao = context.getBean("basicJdbc", BasicJdbc.class);//@Repository tag with this class; no bean in xml
 		dao.getCircle(2);
 		
@@ -43,7 +43,7 @@ public class SpringDataDemo {
 		
 		//Hibernate
 		HibernateDaoImpl hibernateDaoImpl = context.getBean("hibernateDaoImpl", HibernateDaoImpl.class);//@Repository tag with this class; no bean in xml
-		hibernateDaoImpl.getCircle(5);
+		hibernateDaoImpl.getCircleCount();
 
 		context.close();
 	}

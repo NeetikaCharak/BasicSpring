@@ -6,18 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.neetika.model.Circle;
+import com.neetika.model.CircleDetails;
 
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class BasicJdbc {
 
-	public Circle getCircle(Integer id) {
+	public CircleDetails getCircle(Integer id) {
 		Connection conn = null;
 		ResultSet rs = null;
 		PreparedStatement ps = null;
-		Circle circle = null;
+		CircleDetails circle = null;
 		try {
 			//Step 1 - Making connection
 			String driver = "org.apache.derby.jdbc.ClientDriver";
@@ -33,7 +33,7 @@ public class BasicJdbc {
 			
 			//Step4 - Iterating and returning result 
 			if(rs.next()){
-				circle = new Circle(id, rs.getString("name"));
+				circle = new CircleDetails(id, rs.getString("name"));
 			}
 			System.out.println("\n");
 			System.out.println("BasicJdbc :: getCircle() :: CircleName - "+rs.getString("name"));

@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.neetika.model.Circle;
+import com.neetika.model.CircleDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -65,11 +65,11 @@ public class SpringJdbcSupport {
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
-	public Circle getCircleUsingTraditionalJdbc(Integer id) {
+	public CircleDetails getCircleUsingTraditionalJdbc(Integer id) {
 		Connection conn = null;
 		ResultSet rs = null;
 		PreparedStatement ps = null;
-		Circle circle = null;
+		CircleDetails circle = null;
 		try {
 			//Step 1 - Making connection
 			//Advantage - We got rid from boilerplate code to make the connection, plus configuration part is in xml now and not in class file
@@ -86,7 +86,7 @@ public class SpringJdbcSupport {
 			
 			//Step4 - Iterating and returning result 
 			if(rs.next()){
-				circle = new Circle(id, rs.getString("name"));
+				circle = new CircleDetails(id, rs.getString("name"));
 			}
 			System.out.println("\n");
 			System.out.println("SpringJdbcSupport :: getCircleBeforeJdbcTemplate() :: CircleName - "+rs.getString("name"));
@@ -140,14 +140,14 @@ public class SpringJdbcSupport {
 		
 		//When query needs arg and we need mapped Object
 		System.out.println("SpringJdbcSupport :: getCircleUsingJdbcTemplateBean() :: ");
-		Circle circle = jdbcTemplateBean.queryForObject("Select * from circle where id = ?", new Object[] {id}, new RowMapperImpl());
-		System.out.println("\t Circle Object with id "+id+" is "+circle.getName());
+		CircleDetails circle = jdbcTemplateBean.queryForObject("Select * from circle where id = ?", new Object[] {id}, new RowMapperImpl());
+		System.out.println("\t Circle Object with id "+id+" is "+circle.getCircleNm());
 		
 		//When query needs arg and we need mapped Object LIST
 		System.out.println("SpringJdbcSupport :: getCircleUsingJdbcTemplateBean() :: List Objects are :");
-		List<Circle> circles = jdbcTemplateBean.query("Select * from circle", new RowMapperImpl());
-		for(Circle c :circles){
-			System.out.println("\t Circle Object with id "+c.getId()+" is "+c.getName());
+		List<CircleDetails> circles = jdbcTemplateBean.query("Select * from circle", new RowMapperImpl());
+		for(CircleDetails c :circles){
+			System.out.println("\t Circle Object with id "+c.getCircleId()+" is "+c.getCircleNm());
 		}
 	}
 	
@@ -155,25 +155,25 @@ public class SpringJdbcSupport {
 	 * JDBCTemplate's update method is for creation, removal and update
 	 * @param circle
 	 */
-	public void createCircleUsingJdbcTemplateBean(Circle circle){
+	public void createCircleUsingJdbcTemplateBean(CircleDetails circle){
 		System.out.println("\n");
 		String sql = "insert into circle values(?,?)";
-		int rowsUpdated = jdbcTemplateBean.update(sql, new Object[] {circle.getId(), circle.getName()});
+		int rowsUpdated = jdbcTemplateBean.update(sql, new Object[] {circle.getCircleId(), circle.getCircleNm()});
 		System.out.println("SpringJdbcSupport :: createCircleUsingJdbcTemplateBean() :: Updated "+rowsUpdated+" row(s).");
-		getCircleUsingJdbcTemplateBean(circle.getId()); 
+		getCircleUsingJdbcTemplateBean(circle.getCircleId()); 
 	}
 	
 	/**
 	 * Using NamedParameterJDBCTemplate
 	 * @param circle
 	 */
-	public void createCircleUsingNamedParamJdbcTemplateBean(Circle circle){
+	public void createCircleUsingNamedParamJdbcTemplateBean(CircleDetails circle){
 		System.out.println("\n");
 		String sql = "insert into circle values(:id, :name)";
-		SqlParameterSource sqlParameterSource = new MapSqlParameterSource("id", circle.getId()).addValue("name", circle.getName());
+		SqlParameterSource sqlParameterSource = new MapSqlParameterSource("id", circle.getCircleId()).addValue("name", circle.getCircleNm());
 		int rowsUpdated = namedParameterJdbcTemplate.update(sql, sqlParameterSource);
 		System.out.println("SpringJdbcSupport :: createCircleUsingNamedParamJdbcTemplateBean() :: Updated "+rowsUpdated+" row(s).");		
-		getCircleUsingJdbcTemplateBean(circle.getId()); 
+		getCircleUsingJdbcTemplateBean(circle.getCircleId()); 
 	}
 	
 	/**
@@ -181,14 +181,14 @@ public class SpringJdbcSupport {
 	 * @author Neetika
 	 *
 	 */
-	private static final class RowMapperImpl implements RowMapper<Circle>{
+	private static final class RowMapperImpl implements RowMapper<CircleDetails>{
 
 		@Override
-		public Circle mapRow(ResultSet rs, int rowNum) throws SQLException {
+		public CircleDetails mapRow(ResultSet rs, int rowNum) throws SQLException {
 			System.out.println("\t RowMappper : rowNum"+rowNum);
-			Circle circle = new Circle();
-			circle.setId(rs.getInt("ID"));
-			circle.setName(rs.getString("NAME"));
+			CircleDetails circle = new CircleDetails();
+			circle.setCircleId(rs.getInt("ID"));
+			circle.setCircleNm(rs.getString("NAME"));
 			return circle;
 		}
 		

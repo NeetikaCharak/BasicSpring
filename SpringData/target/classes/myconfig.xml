@@ -30,15 +30,49 @@
 		<property name="dataSource" ref="datasource"></property>
 	</bean>
 	
+	<!-- Hibernate configuration starts -->
+	
 	<bean id="sessonFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="datasource"></property>
-		<property name="packagesToScan" value="com.neetika.model"></property><!-- Model class's package to scan for annotated classes @Entity -->
+		<property name="packagesToScan" value="com.neetika.model"></property><!-- Model class's package to be scanned for annotated classes @Entity -->
 		
 		<property name="hibernateProperties">
 			<props>
-				<prop key="dialect">org.hibernate.dialect.DerbyDialect</prop>
+			
+				<!-- Dialect property tells hibernate what language to use when talking to database; the way 
+				query is executed in Oracle is not the same as in postgress or derby.
+				Since we are not writing and executing queries directly on db, its hibernate doing it for us  -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.DerbyTenSevenDialect</prop>
+				
+				<!-- This property will make hibernate to print all (translated from hql) sql queris on stdout that it GENERATES-->
+				<prop key="hibernate.show_sql">true</prop>
+				
+				
+				<!-- <prop key="hibernate.hbm2ddl.auto">validate</prop>
+				create - drop the table and create it again from the model objects
+				(log)
+						Hibernate: drop table Circle
+						Hibernate: create table Circle (id integer not null, name varchar(255), primary key (id))
+				update - create the table
+				(log)
+						Hibernate: create table Circle (id integer not null, name varchar(255), primary key (id))
+					
+				validate: validate the schema, makes no changes to the database.
+				update: update the schema.
+				create: creates the schema, destroying previous data.
+				create-drop: drop the schema when the SessionFactory is closed explicitly, typically when the application is stopped.
+				 -->
+				<prop key="hibernate.hbm2ddl.auto">none</prop>
+				
+				<prop key="hibernate.id.new_generator_mappings">false</prop>
+				
+				<!-- Enable Hibernate's 2nd Level Cache -->
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop><!--  To configure EhCache as a Hibernate second-level cache, set the region factory property -->
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				
 			</props>
 		</property>
 	</bean>
-	
+	<!-- Hibernate ends -->
 </beans>  
